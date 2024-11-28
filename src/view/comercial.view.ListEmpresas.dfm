@@ -47,7 +47,7 @@ object pageListEmpresas: TpageListEmpresas
     OnClick = Button_buscarClick
   end
   object Button_novo: TButton
-    Left = 0
+    Left = 1
     Top = 16
     Width = 75
     Height = 25
@@ -56,13 +56,22 @@ object pageListEmpresas: TpageListEmpresas
     OnClick = Button_novoClick
   end
   object Button_deletar: TButton
-    Left = 81
+    Left = 169
     Top = 16
     Width = 75
     Height = 25
     Caption = 'Deletar'
     TabOrder = 4
     OnClick = Button_deletarClick
+  end
+  object Button_editar: TButton
+    Left = 84
+    Top = 16
+    Width = 75
+    Height = 25
+    Caption = 'Editar'
+    TabOrder = 5
+    OnClick = Button_editarClick
   end
   object DataSource1: TDataSource
     Left = 520

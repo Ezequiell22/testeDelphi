@@ -18,6 +18,9 @@ type
     FNMENDERECO: string;
     FNUENDERECO: string;
     FSTATIVO: String;
+    FnuCEP: string;
+    FidUF: integer;
+    FidCidade: integer;
   public
     constructor Create(aParent: iModelDAOEntity<TModelEntityCadEnderecos>);
     destructor Destroy; override;
@@ -33,6 +36,12 @@ type
     function NUENDERECO: string; overload;
     function STATIVO(aValue: string): TModelEntityCadEnderecos; overload;
     function STATIVO: string; overload;
+    function NUCEP(aValue: string): TModelEntityCadEnderecos; overload;
+    function NUCEP: string; overload;
+    function IDUF(aValue: integer): TModelEntityCadEnderecos; overload;
+    function IDUF: integer; overload;
+    function IDCIDADE(aValue: integer): TModelEntityCadEnderecos; overload;
+    function IDCIDADE: integer; overload;
     function &End: iModelDAOEntity<TModelEntityCadEnderecos>;
   end;
 
@@ -70,8 +79,6 @@ end;
 
 function TModelEntityCadEnderecos.IDENDERECO: integer;
 begin
-  if (FIDENDERECO) <= 0 then
-    raise Exception.Create('IDENDERECO não pode ser vazio');
 
   Result := FIDENDERECO;
 end;
@@ -85,10 +92,20 @@ end;
 
 function TModelEntityCadEnderecos.IDTITULAR: integer;
 begin
-  if (FIDTITULAR) <= 0 then
-    raise Exception.Create('IDTITULAR não pode ser vazio');
 
   Result := FIDTITULAR;
+end;
+
+function TModelEntityCadEnderecos.IDUF: integer;
+begin
+  Result := FidUF;
+end;
+
+function TModelEntityCadEnderecos.IDUF(aValue: integer)
+  : TModelEntityCadEnderecos;
+begin
+  Result := Self;
+  FidUF := aValue;
 end;
 
 function TModelEntityCadEnderecos.IDEMPRESA(aValue: integer)
@@ -96,6 +113,18 @@ function TModelEntityCadEnderecos.IDEMPRESA(aValue: integer)
 begin
   Result := Self;
   FIDEMPRESA := aValue;
+end;
+
+function TModelEntityCadEnderecos.IDCIDADE(aValue: integer)
+  : TModelEntityCadEnderecos;
+begin
+  Result := Self;
+  FidCidade := aValue;
+end;
+
+function TModelEntityCadEnderecos.IDCIDADE: integer;
+begin
+  Result := FidCidade;
 end;
 
 function TModelEntityCadEnderecos.IDEMPRESA: integer;
@@ -128,6 +157,18 @@ begin
   FNUENDERECO := aValue;
 end;
 
+function TModelEntityCadEnderecos.NUCEP(aValue: string)
+  : TModelEntityCadEnderecos;
+begin
+  Result := Self;
+  FnuCEP := aValue;
+end;
+
+function TModelEntityCadEnderecos.NUCEP: string;
+begin
+  Result := FnuCEP;
+end;
+
 function TModelEntityCadEnderecos.NUENDERECO: string;
 begin
   if trim(FNUENDERECO) = '' then
@@ -138,13 +179,13 @@ end;
 
 function TModelEntityCadEnderecos.STATIVO: string;
 begin
-  result := FSTATIVO;
+  Result := FSTATIVO;
 end;
 
-function TModelEntityCadEnderecos.STATIVO(
-  aValue: string): TModelEntityCadEnderecos;
+function TModelEntityCadEnderecos.STATIVO(aValue: string)
+  : TModelEntityCadEnderecos;
 begin
-  result := Self;
+  Result := Self;
   FSTATIVO := aValue;
 end;
 

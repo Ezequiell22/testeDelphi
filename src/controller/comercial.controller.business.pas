@@ -7,27 +7,28 @@ uses
   comercial.model.business.interfaces,
   comercial.model.resource.interfaces,
   comercial.model.DAO.interfaces,
-  comercial.model.business.ListEmpresas;
+  comercial.model.business.ListEmpresas,
+  comercial.model.business.Endereco;
 
 type
   TControllerBusiness = class(TInterfacedObject, iControllerBusiness)
   private
     FListEmpresas: iModelBusinessListEmpresas;
     FEmpresa: iModelBusinessEmpresa;
-    FSearch: iModelBusinessSearch;
+    FEndereco: iModelBusinessEndereco;
   public
     constructor create;
     destructor destroy; override;
     class function New: iControllerBusiness;
     function ListEmpresas: iModelBusinessListEmpresas;
     function Empresa: iModelBusinessEmpresa;
-    function Search: iModelBusinessSearch;
+    function Endereco: iModelBusinessEndereco;
   end;
 
 implementation
 
 uses
-  comercial.model.business.Empresa, comercial.model.business.search;
+  comercial.model.business.Empresa;
 
 { TControllerBusiness }
 
@@ -49,6 +50,13 @@ begin
   result := FEmpresa;
 end;
 
+function TControllerBusiness.Endereco: iModelBusinessEndereco;
+begin
+  if not assigned(FEndereco) then
+    FEndereco := TmodelBusinessEndereco.New;
+  result := FEndereco;
+end;
+
 function TControllerBusiness.ListEmpresas: iModelBusinessListEmpresas;
 begin
   if not assigned(FListEmpresas) then
@@ -61,11 +69,5 @@ begin
   result := Self.create;
 end;
 
-function TControllerBusiness.search: iModelBusinessSearch;
-begin
-  if not assigned(FSearch) then
-    FSearch := TModelBusinessSearch.New;
-  result := FSearch;
-end;
 
 end.

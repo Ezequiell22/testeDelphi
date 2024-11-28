@@ -1,8 +1,10 @@
 object pageEndereco: TpageEndereco
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Endere'#231'o'
-  ClientHeight = 322
+  ClientHeight = 306
   ClientWidth = 684
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -10,6 +12,8 @@ object pageEndereco: TpageEndereco
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
+  OnShow = FormShow
   TextHeight = 15
   object lbl_codigo: TLabel
     Left = 6
@@ -27,7 +31,7 @@ object pageEndereco: TpageEndereco
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 56
+    Top = 40
     Width = 684
     Height = 266
     Align = alBottom
@@ -80,53 +84,8 @@ object pageEndereco: TpageEndereco
       Top = 200
       Width = 121
       Height = 23
+      NumbersOnly = True
       TabOrder = 0
-    end
-    object Edit_iduf: TEdit
-      Left = 24
-      Top = 99
-      Width = 121
-      Height = 23
-      TabOrder = 1
-    end
-    object Edit_idcidade: TEdit
-      Left = 24
-      Top = 149
-      Width = 121
-      Height = 23
-      TabOrder = 2
-    end
-    object Button_busca_uf: TButton
-      Left = 151
-      Top = 98
-      Width = 25
-      Height = 25
-      Caption = '...'
-      TabOrder = 3
-      OnClick = Button_busca_ufClick
-    end
-    object Button_busca_cidade: TButton
-      Left = 151
-      Top = 148
-      Width = 25
-      Height = 25
-      Caption = '...'
-      TabOrder = 4
-      OnClick = Button_busca_cidadeClick
-    end
-    object Edit_nm_uf: TEdit
-      Left = 182
-      Top = 99
-      Width = 459
-      Height = 23
-      TabOrder = 5
-    end
-    object Edit_nm_cidade: TEdit
-      Left = 182
-      Top = 149
-      Width = 459
-      Height = 23
-      TabOrder = 6
     end
     object Edit_idEndereco: TEdit
       Left = 24
@@ -134,31 +93,52 @@ object pageEndereco: TpageEndereco
       Width = 121
       Height = 23
       NumbersOnly = True
-      TabOrder = 7
+      TabOrder = 1
     end
     object Edit_nmendereco: TEdit
       Left = 151
       Top = 43
       Width = 314
       Height = 23
-      NumbersOnly = True
-      TabOrder = 8
+      TabOrder = 2
     end
     object Edit_nuendereco: TEdit
       Left = 471
       Top = 43
       Width = 170
       Height = 23
-      NumbersOnly = True
-      TabOrder = 9
+      TabOrder = 3
     end
     object Button_salvar: TButton
-      Left = 566
-      Top = 199
+      Left = 598
+      Top = 223
       Width = 75
       Height = 25
       Caption = 'Salvar'
-      TabOrder = 10
+      TabOrder = 4
+      OnClick = Button_salvarClick
     end
+    object ComboBox_uf: TComboBox
+      Left = 24
+      Top = 96
+      Width = 441
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 5
+      OnSelect = ComboBox_ufSelect
+    end
+    object ComboBox_cidade: TComboBox
+      Left = 24
+      Top = 149
+      Width = 441
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 6
+      OnSelect = ComboBox_cidadeSelect
+    end
+  end
+  object DataSource1: TDataSource
+    Left = 344
+    Top = 256
   end
 end

@@ -23,7 +23,6 @@ type
     function nmempresa(aValue : string ) : iModelBusinessListEmpresas;
     function LinkDataSource(aDataSource: TDataSource)
       : iModelBusinessListEmpresas;
-
   end;
 
 implementation
@@ -77,17 +76,10 @@ begin
     .sqlAdd('select ')
     .sqlAdd('a.idempresa,')
     .sqlAdd('a.nmempresa, ')
-    .sqlAdd('a.nucnpj,')
-    .sqlAdd('c.idendereco,')
-    .sqlAdd('c.nmendereco,')
-    .sqlAdd('c.nuendereco,')
-    .sqlAdd('d.nmcidade, ')
-    .sqlAdd('e.nmestado  ')
-   .sqlAdd('from cadEmpresa A  ')
-   .sqlAdd('left join cadenderecos c on ( a.idempresa = c.idempresa')
-   .sqlAdd('and c.tpcadastro = ''E'' and c.stativo = ''S'') ')
-   .sqlAdd('left join cadCidade d on (c.idcidade = d.idcidade)')
-   .sqlAdd('left join cadUf e on (d.iduf = e.iduf)');
+    .sqlAdd('a.nucnpj')
+    .sqlAdd('from cadEmpresa A  ')
+    .sqlAdd(' where (a.STEXCLUIDO <> ''S''')
+    .sqlAdd(' or a.STEXCLUIDO is null )');
 
     if (Fnmempresa <> EmptyStr) then
     begin

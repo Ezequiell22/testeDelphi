@@ -4,7 +4,7 @@ object pageEmpresa: TpageEmpresa
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Empresa'
-  ClientHeight = 374
+  ClientHeight = 323
   ClientWidth = 874
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,6 +13,7 @@ object pageEmpresa: TpageEmpresa
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnClose = FormClose
   OnShow = FormShow
   TextHeight = 15
   object Label1: TLabel
@@ -85,14 +86,14 @@ object pageEmpresa: TpageEmpresa
       OnClick = Button_EditarClick
     end
   end
-  object Edit_codigo: TEdit
+  object Edit_idEmpresa: TEdit
     Left = 16
     Top = 40
     Width = 121
     Height = 23
     NumbersOnly = True
     TabOrder = 1
-    OnExit = Edit_codigoExit
+    OnExit = Edit_idEmpresaExit
   end
   object Edit_nome: TEdit
     Left = 152
@@ -108,15 +109,6 @@ object pageEmpresa: TpageEmpresa
     Height = 23
     NumbersOnly = True
     TabOrder = 3
-  end
-  object Button_salvar: TButton
-    Left = 790
-    Top = 337
-    Width = 75
-    Height = 25
-    Caption = 'Salvar'
-    TabOrder = 4
-    OnClick = Button_salvarClick
   end
   object DataSource_enderecos: TDataSource
     Left = 72

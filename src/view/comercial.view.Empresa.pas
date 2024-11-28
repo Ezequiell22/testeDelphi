@@ -21,13 +21,12 @@ uses
 type
   TpageEmpresa = class(TForm)
     GroupBox1: TGroupBox;
-    Edit_codigo: TEdit;
+    Edit_idEmpresa: TEdit;
     Label1: TLabel;
     Edit_nome: TEdit;
     Label2: TLabel;
     Edit_cnpj: TEdit;
     Label3: TLabel;
-    Button_salvar: TButton;
     DBGrid1: TDBGrid;
     DataSource_enderecos: TDataSource;
     DataSource_empresa: TDataSource;
@@ -35,15 +34,16 @@ type
     Button_adicionar: TButton;
     Button_Editar: TButton;
     procedure FormShow(Sender: TObject);
-    procedure Edit_codigoExit(Sender: TObject);
-    procedure Button_salvarClick(Sender: TObject);
+    procedure Edit_idEmpresaExit(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure Button_selecionaClick(Sender: TObject);
     procedure Button_adicionarClick(Sender: TObject);
     procedure Button_EditarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     Fcontroller : iController;
+    procedure SalvarDados;
   public
     { Public declarations }
     procedure BuscaDados;
@@ -67,7 +67,7 @@ begin
   Fcontroller
     .business
       .Empresa
-        .idEmpresa(strTointDef(Edit_codigo.Text,0))
+        .idEmpresa(strTointDef(Edit_idEmpresa.Text,0))
         .LinkDataSourceEnderecos(DataSource_enderecos)
         .LinkDataSourceEmpresa(DataSource_empresa)
         .SearchData;
@@ -81,16 +81,19 @@ end;
 
 procedure TpageEmpresa.Button_adicionarClick(Sender: TObject);
 begin
-  if strTointDef(Edit_codigo.Text,0) <= 0 then
+  if strTointDef(Edit_idEmpresa.Text,0) <= 0 then
     exit;
+
+  SalvarDados;
 
   pageEndereco := TpageEndereco.Create(self);
   try
    pageEndereco.Caption := 'Novo Endereço';
    pageEndereco.lbl_codigo.Caption := 'Código '+
-   Edit_codigo.Text;
+   Edit_idEmpresa.Text;
    pageEndereco.lbl_empresa.Caption :=
    Edit_nome.Text;
+   pageEndereco.IdEmpresa := strTointDef(Edit_idEmpresa.Text,0);
    pageEndereco.ShowModal;
   finally
     pageEndereco.Free;
@@ -101,16 +104,26 @@ end;
 
 procedure TpageEmpresa.Button_EditarClick(Sender: TObject);
 begin
-  if strTointDef(Edit_codigo.Text,0) <= 0 then
+  if strTointDef(Edit_idEmpresa.Text,0) <= 0 then
+    exit;
+
+  SalvarDados;
+
+  if DataSource_enderecos.DataSet.IsEmpty then
     exit;
 
   pageEndereco := TpageEndereco.Create(self);
   try
    pageEndereco.Caption := 'Editar Endereço';
+   pageEndereco.Edit_idEndereco.ReadOnly := True;
+   pageEndereco.Edit_idEndereco.Text :=
+    DataSource_enderecos.DataSet.FieldByName('idEndereco').AsString;
    pageEndereco.lbl_codigo.Caption := 'Código '+
-   Edit_codigo.Text;
+   Edit_idEmpresa.Text;
    pageEndereco.lbl_empresa.Caption :=
    Edit_nome.Text;
+
+   pageEndereco.IdEmpresa := strTointDef(Edit_idEmpresa.Text,0);
    pageEndereco.ShowModal;
   finally
     pageEndereco.Free;
@@ -119,25 +132,10 @@ begin
   BuscaDados;
 end;
 
-procedure TpageEmpresa.Button_salvarClick(Sender: TObject);
-begin
-
-  Fcontroller
-    .business
-      .Empresa
-        .idEmpresa(StrToIntDef(Edit_codigo.Text,0))
-        .nmempresa(Edit_nome.Text)
-        .NUCNPJ(Edit_cnpj.Text)
-        .SaveData;
-
-  showMessage('Dados salvos com sucesso!');
-  self.Close;
-
-end;
-
 procedure TpageEmpresa.Button_selecionaClick(Sender: TObject);
 begin
-  SelecionarEndereco
+  SalvarDados;
+  SelecionarEndereco;
 end;
 
 procedure TpageEmpresa.DBGrid1DblClick(Sender: TObject);
@@ -145,9 +143,24 @@ begin
    SelecionarEndereco
 end;
 
-procedure TpageEmpresa.Edit_codigoExit(Sender: TObject);
+procedure TpageEmpresa.Edit_idEmpresaExit(Sender: TObject);
 begin
+  if strTointDef(Edit_idEmpresa.Text, 0) = 0 then
+  begin
+    Edit_idEmpresa.Text :=
+      Fcontroller
+      .business
+        .Empresa
+        .newId.ToString;
+  end;
+
   BuscaDados;
+end;
+
+
+procedure TpageEmpresa.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   SalvarDados
 end;
 
 procedure TpageEmpresa.FormShow(Sender: TObject);
@@ -156,7 +169,19 @@ begin
   DBGrid1.Options := DBGrid1.Options - [dgediting];
 
   Fcontroller := TController.new;
-  pageEmpresa.Edit_codigoExit(Sender);
+  pageEmpresa.Edit_idEmpresaExit(Sender);
+end;
+
+procedure TpageEmpresa.SalvarDados;
+begin
+  Fcontroller
+    .business
+      .Empresa
+        .idEmpresa(StrToIntDef(Edit_idEmpresa.Text,0))
+        .nmempresa(Edit_nome.Text)
+        .NUCNPJ(Edit_cnpj.Text)
+        .SaveData;
+
 end;
 
 procedure TpageEmpresa.SelecionarEndereco;
@@ -167,7 +192,7 @@ begin
   Fcontroller
     .business
       .Empresa
-        .idEmpresa(strTointDef( Edit_codigo.Text, 0))
+        .idEmpresa(strTointDef(Edit_idEmpresa.Text, 0))
         .idEndereco(DataSource_enderecos.DataSet
         .FieldByName('idEndereco').AsInteger)
         .ColocaEnderecoAtivo

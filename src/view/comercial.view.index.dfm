@@ -4,8 +4,8 @@ object frmIndex: TfrmIndex
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'M'#243'dulo Comercial'
-  ClientHeight = 563
-  ClientWidth = 782
+  ClientHeight = 649
+  ClientWidth = 1322
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object frmIndex: TfrmIndex
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 544
-    Width = 782
+    Top = 630
+    Width = 1322
     Height = 19
     Panels = <
       item
@@ -34,7 +34,8 @@ object frmIndex: TfrmIndex
       item
         Width = 50
       end>
-    ExplicitWidth = 1160
+    ExplicitTop = 544
+    ExplicitWidth = 782
   end
   object MainMenu1: TMainMenu
     Left = 48

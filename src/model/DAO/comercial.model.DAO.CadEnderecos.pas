@@ -17,6 +17,8 @@ type
     Fquery: iQuery;
     FDataSource: TDataSource;
     FEntity: TModelEntityCadEnderecos;
+    procedure afterScroll(DataSet: TDataSet);
+    function FoundValue(  AFieldsWhere: TDictionary<string, Variant>) : boolean;
   public
     constructor create;
     destructor destroy; override;
@@ -40,10 +42,24 @@ uses
 
 { TModelDAOCadEnderecos }
 
+procedure TModelDAOCadEnderecos.afterScroll(DataSet: TDataSet);
+begin
+  FEntity.IDENDERECO(DataSet.FieldByName('IDENDERECO').asInteger);
+  FEntity.IDEMPRESA(DataSet.FieldByName('IDEMPRESA').asInteger);
+  FEntity.IDTITULAR(DataSet.FieldByName('IDTITULAR').asInteger);
+  FEntity.NMENDERECO(DataSet.FieldByName('NMENDERECO').asString);
+  FEntity.NUENDERECO(DataSet.FieldByName('NUENDERECO').asString);
+  FEntity.STATIVO(DataSet.FieldByName('STATIVO').asString);
+  FEntity.NUCEP(DataSet.FieldByName('NUCEP').asString);
+  FEntity.IDUF(DataSet.FieldByName('IDUF').asinteger);
+  FEntity.idcidade(DataSet.FieldByName('idcidade').asinteger);
+end;
+
 constructor TModelDAOCadEnderecos.create;
 begin
   FEntity := TModelEntityCadEnderecos.create(Self);
   Fquery := TModelResourceQueryFiredac.New(tcFBTeste);
+  Fquery.DataSet.AfterScroll := afterScroll;
 end;
 
 function TModelDAOCadEnderecos.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCadEnderecos>;
@@ -61,10 +77,13 @@ begin
     .active(false)
     .sqlClear
     .sqlAdd('update CadEnderecos ')
-    .sqlAdd(' set STEXCLUIDO = ''S'',')
-    .sqlAdd('DTEXCLUIDO = :DTEXCLUIDO')
+    .sqlAdd(' set STEXCLUIDO = :STEXCLUIDO,')
+    .sqlAdd(' DTEXCLUIDO = :DTEXCLUIDO,')
+    .sqlAdd(' STATIVO = :STATIVO')
     .sqlAdd(' where IDENDERECO = :IDENDERECO')
     .addParam('IDENDERECO', FEntity.IDENDERECO)
+    .addParam('STEXCLUIDO', 'S')
+    .addParam('STATIVO', 'N')
     .addParam('DTEXCLUIDO', NOW)
     .execSql
   except
@@ -79,6 +98,22 @@ begin
   inherited;
 end;
 
+function TModelDAOCadEnderecos.FoundValue(  AFieldsWhere: TDictionary<string, Variant> ): boolean;
+var key : string;
+begin
+    { verificar se existe alguma chave com valor}
+  result := False;
+   for key in AFieldsWhere.Keys do
+     begin
+        if UpperCase( AFieldsWhere.Items[Key]) <> '0' then
+        begin
+            result := True;
+            break;
+        end;
+     end;
+
+end;
+
 function TModelDAOCadEnderecos.Get: iModelDAOEntity<TModelEntityCadEnderecos>;
 begin
   result := Self;
@@ -88,7 +123,9 @@ begin
     .sqlClear
     .sqlAdd('select * ')
     .sqlAdd('from CadEnderecos')
-    .Open
+    .Open;
+
+    Fquery.DataSet.First;
   except
     on E: Exception do
       raise Exception.create(E.message);
@@ -100,8 +137,13 @@ function TModelDAOCadEnderecos.Get(
   AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadEnderecos>;
  var key  : string;
    i : integer;
+   found : boolean;
 begin
   result := self;
+
+//  if not FoundValue(AFieldsWhere) then
+//    exit;
+
   try
     Fquery
     .active(false)
@@ -121,8 +163,8 @@ begin
         else
           str := ' AND ' +UpperCase(Key)+ ' = :'+ UpperCase(Key);
 
-       Fquery.sqlAdd(str);
-       Fquery.addParam(UpperCase(Key),  UpperCase( AFieldsWhere.Items[Key]));
+         Fquery.sqlAdd(str);
+         Fquery.addParam(UpperCase(Key),  UpperCase( AFieldsWhere.Items[Key]));
 
        inc(i);
      end;
@@ -148,10 +190,11 @@ begin
     .sqlAdd('where IDENDERECO = :IDENDERECO ')
     .addParam('IDENDERECO', AValue)
     .Open;
+
+    Fquery.DataSet.First;
   except
     on E: Exception do
       raise Exception.create(E.message);
-
   end;
 end;
 
@@ -168,21 +211,24 @@ begin
     .sqlClear
     .sqlAdd('insert into CadEnderecos')
     .sqlAdd('(IDENDERECO, IDTITULAR, IDEMPRESA, ')
-    .sqlAdd('   NMENDERECO, NUENDERECO, STATIVO )')
+    .sqlAdd('   NMENDERECO, NUENDERECO, STATIVO , ')
+    .sqlAdd(' NUCEP,IDUF,idcidade )')
     .sqlAdd('values ( :IDENDERECO, :IDTITULAR, :IDEMPRESA, ')
-    .sqlAdd('   :NMENDERECO, :NUENDERECO, :STATIVO )')
-      .addParam('IDENDERECO', FEntity.IDENDERECO)
-      .addParam('IDTITULAR', FEntity.IDTITULAR)
-      .addParam('IDEMPRESA', FEntity.IDEMPRESA)
-      .addParam('NMENDERECO', FEntity.NMENDERECO)
-      .addParam('NUENDERECO', FEntity.NUENDERECO)
-      .addParam('STATIVO', FEntity.STATIVO)
-      .execSql
-
+    .sqlAdd('   :NMENDERECO, :NUENDERECO, :STATIVO ,')
+    .sqlAdd(' :NUCEP, :IDUF, :idcidade )')
+    .addParam('IDENDERECO', FEntity.IDENDERECO)
+    .addParam('IDTITULAR', FEntity.IDTITULAR)
+    .addParam('IDEMPRESA', FEntity.IDEMPRESA)
+    .addParam('NMENDERECO', FEntity.NMENDERECO)
+    .addParam('NUENDERECO', FEntity.NUENDERECO)
+    .addParam('STATIVO', FEntity.STATIVO)
+    .addParam('NUCEP', FEntity.NUCEP)
+    .addParam('IDUF', FEntity.IDUF)
+    .addParam('idcidade', FEntity.idcidade)
+    .execSql
   except
     on E: Exception do
       raise Exception.create(E.message);
-
   end;
 end;
 
@@ -200,28 +246,30 @@ function TModelDAOCadEnderecos.Update: iModelDAOEntity<TModelEntityCadEnderecos>
 begin
   result := Self;
   try
-
     Fquery.active(false)
     .sqlClear
     .sqlAdd('update CadEnderecos ')
     .sqlAdd('set IDTITULAR = :IDTITULAR, ')
-    .sqlAdd('rIDEMPRESA = :IDEMPRESA, ')
+    .sqlAdd('IDEMPRESA = :IDEMPRESA, ')
     .sqlAdd('NMENDERECO = :NMENDERECO, ')
     .sqlAdd('NUENDERECO = :NUENDERECO, ')
-    .sqlAdd('STATIVO = :STATIVO ')
-    .sqlAdd(' where IDENDERECO = :IDENDERECO')
+    .sqlAdd('NUCEP = :NUCEP, ')
+    .sqlAdd('IDUF = :IDUF, ')
+    .sqlAdd('IDCIDADE = :IDCIDADE ')
+    .sqlAdd('where IDENDERECO = :IDENDERECO')
     .addParam('IDENDERECO', FEntity.IDENDERECO)
     .addParam('IDTITULAR', FEntity.IDTITULAR)
     .addParam('IDEMPRESA', FEntity.IDEMPRESA)
     .addParam('NMENDERECO', FEntity.NMENDERECO)
     .addParam('NUENDERECO', FEntity.NUENDERECO)
-    .addParam('STATIVO', FEntity.STATIVO)
+    .addParam('NUCEP', FEntity.NUCEP)
+    .addParam('IDUF', FEntity.IDUF)
+    .addParam('IDCIDADE', FEntity.IDCIDADE)
     .execSql
 
   except
     on E: Exception do
       raise Exception.create('Erro ao atualizar '+E.message);
-
   end;
 end;
 

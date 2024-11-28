@@ -18,6 +18,7 @@ type
     Fquery: iQuery;
     FDataSource: TDataSource;
     FEntity: TModelEntitycadEmpresa;
+    procedure afterScroll(DataSet: TDataSet);
   public
     constructor create;
     destructor destroy; override;
@@ -41,10 +42,19 @@ uses
 
 { TModelDAOcadEmpresa }
 
+procedure TModelDAOcadEmpresa.afterScroll(DataSet: TDataSet);
+begin
+  FEntity.IDEMPRESA(DataSet.FieldByName('IDEMPRESA').asInteger);
+  FEntity.NMEMPRESA(DataSet.FieldByName('NMEMPRESA').asString);
+  FEntity.NUCNPJ(DataSet.FieldByName('NUCNPJ').asString);
+  FEntity.STATIVO(DataSet.FieldByName('STATIVO').asString);
+end;
+
 constructor TModelDAOcadEmpresa.create;
 begin
   FEntity := TModelEntitycadEmpresa.create(Self);
   Fquery := TModelResourceQueryFiredac.New(tcFBTeste);
+  Fquery.DataSet.afterScroll := afterScroll
 end;
 
 function TModelDAOcadEmpresa.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntitycadEmpresa>;
@@ -62,10 +72,13 @@ begin
     .active(false)
     .sqlClear
     .sqlAdd('update CADEMPRESA ')
-    .sqlAdd(' set STEXCLUIDO = ''S'',')
-    .sqlAdd('DTEXCLUIDO = :DTEXCLUIDO')
+    .sqlAdd(' set STEXCLUIDO = :STEXCLUIDO,')
+    .sqlAdd(' DTEXCLUIDO = :DTEXCLUIDO,')
+    .sqlAdd(' STATIVO = :STATIVO')
     .sqlAdd(' where IDEMPRESA = :IDEMPRESA')
     .addParam('IDEMPRESA', FEntity.IDEMPRESA)
+    .addParam('STEXCLUIDO', 'S')
+    .addParam('STATIVO', 'N')
     .addParam('DTEXCLUIDO', NOW)
     .execSql
   except
@@ -89,7 +102,8 @@ begin
     .sqlClear
     .sqlAdd('select * ')
     .sqlAdd('from CADEMPRESA')
-    .Open
+    .Open;
+    Fquery.DataSet.First;
   except
     on E: Exception do
       raise Exception.create(E.message);
@@ -115,6 +129,8 @@ begin
     .sqlAdd('where IDEMPRESA = :IDEMPRESA ')
     .addParam('IDEMPRESA', AValue)
     .Open;
+
+    Fquery.DataSet.First;
   except
     on E: Exception do
       raise Exception.create(E.message);
@@ -134,12 +150,13 @@ begin
     Fquery.active(false)
     .sqlClear
     .sqlAdd('insert into CADEMPRESA')
-    .sqlAdd('(IDEMPRESA, NMEMPRESA, NUCNPJ )')
-      .sqlAdd('values ( :IDEMPRESA, :NMEMPRESA, :NUCNPJ )')
-      .addParam('IDEMPRESA', FEntity.IDEMPRESA)
-      .addParam('NMEMPRESA', FEntity.NMEMPRESA)
-      .addParam('NUCNPJ', FEntity.NUCNPJ)
-      .execSql
+    .sqlAdd('(IDEMPRESA, NMEMPRESA, NUCNPJ, STATIVO )')
+    .sqlAdd('values ( :IDEMPRESA, :NMEMPRESA, :NUCNPJ, :STATIVO )')
+    .addParam('IDEMPRESA', FEntity.IDEMPRESA)
+    .addParam('NMEMPRESA', FEntity.NMEMPRESA)
+    .addParam('NUCNPJ', FEntity.NUCNPJ)
+    .addParam('STATIVO', 'S')
+    .execSql
 
   except
     on E: Exception do
@@ -167,11 +184,13 @@ begin
     .sqlClear
     .sqlAdd('update CADEMPRESA ')
     .sqlAdd('set NUCNPJ = :NUCNPJ, ')
-    .sqlAdd(' NMEMPRESA = :NMEMPRESA ')
+    .sqlAdd(' NMEMPRESA = :NMEMPRESA, ')
+    .sqlAdd(' STATIVO = :STATIVO ')
     .sqlAdd(' where IDEMPRESA = :IDEMPRESA')
     .addParam('IDEMPRESA', FEntity.IDEMPRESA)
     .addParam('NUCNPJ', FEntity.NUCNPJ)
     .addParam('NMEMPRESA', FEntity.NMEMPRESA)
+    .addParam('STATIVO', FEntity.STATIVO)
     .execSql
 
   except

@@ -33,8 +33,7 @@ uses
   comercial.view.Empresa in 'src\view\comercial.view.Empresa.pas' {pageEmpresa},
   comercial.view.Endereco in 'src\view\comercial.view.Endereco.pas' {pageEndereco},
   comercial.model.business.Empresa in 'src\model\business\comercial.model.business.Empresa.pas',
-  comercial.view.search in 'src\view\comercial.view.search.pas' {pageSearch},
-  comercial.model.business.search in 'src\model\business\comercial.model.business.search.pas';
+  comercial.model.business.Endereco in 'src\model\business\comercial.model.business.Endereco.pas';
 
 {$R *.res}
 
@@ -42,7 +41,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
-  Application.CreateForm(TpageEndereco, pageEndereco);
-  Application.CreateForm(TpageSearch, pageSearch);
   Application.Run;
 end.

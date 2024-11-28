@@ -12,15 +12,6 @@ uses System.Generics.Collections,
 
 type
 
-  iModelBusinessSearch = interface
-    ['{017BC556-3E5D-4E22-A9A5-73D9EF90BC7C}']
-    function ColumnId(aValue: string): iModelBusinessSearch;
-    function ColumnDescription(aValue: string): iModelBusinessSearch;
-    function Table(aValue: string): iModelBusinessSearch;
-    function SearchData(valueLikeDescription: string): iModelBusinessSearch;
-    function LinkDataSource(aDataSource: TDataSource): iModelBusinessSearch;
-  end;
-
   iModelBusinessListEmpresas = interface
     ['{D3BF03B9-F4F6-49DF-8791-0965F3618F28}']
     function SearchData: iModelBusinessListEmpresas;
@@ -45,6 +36,25 @@ type
     function ColocaEnderecoAtivo: iModelBusinessEmpresa;
     function idEndereco(aValue: integer): iModelBusinessEmpresa;
     function Deletar: iModelBusinessEmpresa;
+  end;
+
+  iModelBusinessEndereco = interface
+    ['{EF55EAB6-7CB3-4109-AA41-92515169DA07}']
+    function SearchData : iModelBusinessEndereco;
+    function idEmpresa(aValue : integer) : iModelBusinessEndereco;
+    function idTitular(aValue : integer) : iModelBusinessEndereco;
+    function idEndereco(aValue : integer) : iModelBusinessEndereco;
+    function idUf(aValue : string) : iModelBusinessEndereco;
+    function idCidade(aValue : string) : iModelBusinessEndereco;
+    function nmEndereco(aValue : string) : iModelBusinessEndereco;
+    function nuEndereco(aValue : string) : iModelBusinessEndereco;
+    function nuCep(aValue : string) : iModelBusinessEndereco;
+    function LinkDataSource(aDataSource : TDataSource)
+      : iModelBusinessEndereco;
+    function AbasteceComboBoxUFs(aComboBox: TComboBox): iModelBusinessEndereco;
+    function AbasteceComboBoxCidades(aComboBox: TComboBox)
+      : iModelBusinessEndereco;
+    function saveData : iModelBusinessEndereco;
   end;
 
 implementation

@@ -31,7 +31,8 @@ uses
   comercial.model.DAO.CadCidade in 'src\model\DAO\comercial.model.DAO.CadCidade.pas',
   comercial.model.DAO.CadTitular in 'src\model\DAO\comercial.model.DAO.CadTitular.pas',
   comercial.view.Empresa in 'src\view\comercial.view.Empresa.pas' {pageEmpresa},
-  comercial.view.ListEnderecos in 'src\view\comercial.view.ListEnderecos.pas' {pageListEnderecos};
+  comercial.view.ListEnderecos in 'src\view\comercial.view.ListEnderecos.pas' {pageListEnderecos},
+  comercial.model.business.Empresa in 'src\model\business\comercial.model.business.Empresa.pas';
 
 {$R *.res}
 

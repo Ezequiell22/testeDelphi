@@ -96,7 +96,41 @@ end;
 
 function TModelDAOCadEnderecos.Get(
   AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadEnderecos>;
+ var key  : string;
+   i : integer;
 begin
+  result := self;
+  try
+    Fquery
+    .active(false)
+    .sqlClear
+    .sqlAdd('select * ')
+    .sqlAdd('from cadEnderecos ');
+
+    i := 0;
+
+     for key in AFieldsWhere.Keys do
+     begin
+
+       var str : string;
+
+        if i = 0 then
+          str := ' WHERE ' +UpperCase(Key)+ ' = :'+ UpperCase(Key)
+        else
+          str := ' AND ' +UpperCase(Key)+ ' = :'+ UpperCase(Key);
+
+       Fquery.sqlAdd(str);
+       Fquery.addParam(UpperCase(Key),  UpperCase( AFieldsWhere.Items[Key]));
+
+       inc(i);
+     end;
+
+    Fquery.Open;
+    Fquery.DataSet.First;
+  except
+    on E: Exception do
+      raise Exception.Create(E.message);
+  end;
 
 end;
 

@@ -30,7 +30,8 @@ var
 implementation
 
 uses
-  comercial.controller, comercial.view.Empresa;
+  comercial.controller,
+  comercial.view.Empresa;
 
 {$R *.dfm}
 
@@ -48,6 +49,7 @@ begin
   pageEmpresa := TpageEmpresa.Create(self);
    try
     pageEmpresa.Caption := 'Nova Empresa';
+    pageEmpresa.Edit_codigo.ReadOnly := false;
     pageEmpresa.ShowModal;
    finally
     pageEmpresa.Free;
@@ -62,6 +64,7 @@ begin
   pageEmpresa := TpageEmpresa.Create(self);
    try
     pageEmpresa.Caption := 'Editar Empresa';
+    pageEmpresa.Edit_codigo.ReadOnly := true;
     pageEmpresa.Edit_codigo.Text := DBGrid1.DataSource.DataSet
       .FieldByName('idEmpresa').AsString;
     pageEmpresa.ShowModal;

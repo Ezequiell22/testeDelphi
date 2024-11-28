@@ -20,6 +20,20 @@ type
       : iModelBusinessListEmpresas;
   end;
 
+  iModelBusinessEmpresa = interface
+    ['{D3BF03B9-F4F6-49DF-8791-0965F3618F28}']
+    function SearchData: iModelBusinessEmpresa;
+    function nmempresa(aValue: string): iModelBusinessEmpresa;
+    function NUCNPJ(aValue: string): iModelBusinessEmpresa;
+    function idEmpresa(aValue: integer): iModelBusinessEmpresa;
+    function LinkDataSourceEnderecos(aDataSource: TDataSource)
+      : iModelBusinessEmpresa;
+    function LinkDataSourceEmpresa(aDataSource: TDataSource)
+      : iModelBusinessEmpresa;
+    function newId: integer;
+    function SaveData: iModelBusinessEmpresa;
+  end;
+
 implementation
 
 end.

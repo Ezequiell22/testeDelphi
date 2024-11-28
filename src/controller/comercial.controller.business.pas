@@ -13,14 +13,19 @@ type
   TControllerBusiness = class(TInterfacedObject, iControllerBusiness)
   private
     FListEmpresas: iModelBusinessListEmpresas;
+    FEmpresa: iModelBusinessEmpresa;
   public
     constructor create;
     destructor destroy; override;
     class function New: iControllerBusiness;
     function ListEmpresas: iModelBusinessListEmpresas;
+    function Empresa: iModelBusinessEmpresa;
   end;
 
 implementation
+
+uses
+  comercial.model.business.Empresa;
 
 { TControllerBusiness }
 
@@ -33,6 +38,13 @@ destructor TControllerBusiness.destroy;
 begin
 
   inherited;
+end;
+
+function TControllerBusiness.Empresa: iModelBusinessEmpresa;
+begin
+  if not assigned(FEmpresa) then
+    FEmpresa := TmodelBusinessEmpresa.New;
+  result := FEmpresa;
 end;
 
 function TControllerBusiness.ListEmpresas: iModelBusinessListEmpresas;

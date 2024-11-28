@@ -166,6 +166,7 @@
             <Form>pageListEnderecos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\model\business\comercial.model.business.Empresa.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

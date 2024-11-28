@@ -5,7 +5,7 @@ object frmIndex: TfrmIndex
   BorderStyle = bsSingle
   Caption = 'M'#243'dulo Comercial'
   ClientHeight = 563
-  ClientWidth = 1160
+  ClientWidth = 782
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmIndex: TfrmIndex
   object StatusBar1: TStatusBar
     Left = 0
     Top = 544
-    Width = 1160
+    Width = 782
     Height = 19
     Panels = <
       item
@@ -34,10 +34,11 @@ object frmIndex: TfrmIndex
       item
         Width = 50
       end>
+    ExplicitWidth = 1160
   end
   object MainMenu1: TMainMenu
-    Left = 288
-    Top = 136
+    Left = 48
+    Top = 32
     object Empresas1: TMenuItem
       Caption = 'Empresas'
       OnClick = Empresas1Click

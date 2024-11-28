@@ -7,7 +7,8 @@ uses
   Data.DB,
   comercial.model.resource.interfaces,
   comercial.model.resource.impl.queryFiredac,
-  comercial.model.types.Db;
+  comercial.model.types.Db, comercial.model.DAO.interfaces,
+  comercial.model.entity.cadEmpresa;
 
 type
   TModelBusinessListEmpresas = class(TInterfacedObject, iModelBusinessListEmpresas)
@@ -22,6 +23,7 @@ type
     function nmempresa(aValue : string ) : iModelBusinessListEmpresas;
     function LinkDataSource(aDataSource: TDataSource)
       : iModelBusinessListEmpresas;
+
   end;
 
 implementation
@@ -29,7 +31,8 @@ implementation
 uses
   System.SysUtils,
   System.DateUtils,
-  comercial.model.rtti.utils;
+  comercial.model.rtti.utils,
+  comercial.model.DAO.CadEmpresa;
 
 { TModelBusinessListEmpresas }
 
@@ -43,6 +46,7 @@ begin
 
   inherited;
 end;
+
 
 function TModelBusinessListEmpresas.LinkDataSource(
   aDataSource: TDataSource): iModelBusinessListEmpresas;

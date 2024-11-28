@@ -60,14 +60,16 @@ begin
     Fquery
     .active(false)
     .sqlClear
-    .sqlAdd('delete from CadEnderecos ')
+    .sqlAdd('update CadEnderecos ')
+    .sqlAdd(' set STEXCLUIDO = ''S'',')
+    .sqlAdd('DTEXCLUIDO = :DTEXCLUIDO')
     .sqlAdd(' where IDENDERECO = :IDENDERECO')
     .addParam('IDENDERECO', FEntity.IDENDERECO)
+    .addParam('DTEXCLUIDO', NOW)
     .execSql
   except
     on E: Exception do
       raise Exception.create(E.message);
-
   end;
 end;
 
@@ -203,7 +205,7 @@ begin
     .sqlClear
     .sqlAdd('update CadEnderecos ')
     .sqlAdd('set IDTITULAR = :IDTITULAR, ')
-    .sqlAdd('IDEMPRESA = :IDEMPRESA, ')
+    .sqlAdd('rIDEMPRESA = :IDEMPRESA, ')
     .sqlAdd('NMENDERECO = :NMENDERECO, ')
     .sqlAdd('NUENDERECO = :NUENDERECO, ')
     .sqlAdd('STATIVO = :STATIVO ')

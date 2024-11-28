@@ -4,8 +4,8 @@ object pageEmpresa: TpageEmpresa
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Empresa'
-  ClientHeight = 388
-  ClientWidth = 899
+  ClientHeight = 374
+  ClientWidth = 874
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

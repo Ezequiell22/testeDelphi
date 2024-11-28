@@ -29,6 +29,7 @@ type
     ['{D64C6AAD-C4A3-46BC-BBE4-3CF753379DA5}']
     function ListEmpresas: iModelBusinessListEmpresas;
     function Empresa : iModelBusinessEmpresa;
+    function Search: iModelBusinessSearch;
   end;
 
 implementation

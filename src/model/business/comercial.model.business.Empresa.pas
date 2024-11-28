@@ -39,6 +39,7 @@ type
     function newId : integer;
     function SaveData : iModelBusinessEmpresa;
     function ColocaEnderecoAtivo : iModelBusinessEmpresa;
+    function Deletar : iModelBusinessEmpresa;
   end;
 
 implementation
@@ -46,9 +47,34 @@ implementation
 uses
   comercial.model.DAO.CadEmpresa,
   comercial.model.DAO.CadEnderecos,
-  Generics.Collections;
+  Generics.Collections, System.SysUtils;
 
 { TModelBusinessEmpresa }
+
+function TModelBusinessEmpresa.Deletar: iModelBusinessEmpresa;
+begin
+  result := Self;
+
+  FcadEmpresa
+    .This
+      .IDEMPRESA(FidEmpresa)
+      .&End
+    .Delete;
+
+    {coloca todos os endereços da empresa como excluidos}
+   FQueryAux
+    .active(false)
+    .sqlClear
+    .sqlAdd('update CadEnderecos ')
+    .sqlAdd(' set STEXCLUIDO = ''S'',')
+    .sqlAdd('DTEXCLUIDO = :DTEXCLUIDO')
+    .sqlAdd(' where idEmpresa = :idEmpresa')
+    .addParam('idEmpresa', FidEmpresa)
+    .addParam('DTEXCLUIDO', NOW)
+    .execSql;
+
+  FidEmpresa := 0;
+end;
 
 function TModelBusinessEmpresa.ColocaEnderecoAtivo: iModelBusinessEmpresa;
 begin

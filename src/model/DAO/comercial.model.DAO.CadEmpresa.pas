@@ -61,14 +61,16 @@ begin
     Fquery
     .active(false)
     .sqlClear
-    .sqlAdd('delete from CADEMPRESA ')
+    .sqlAdd('update CADEMPRESA ')
+    .sqlAdd(' set STEXCLUIDO = ''S'',')
+    .sqlAdd('DTEXCLUIDO = :DTEXCLUIDO')
     .sqlAdd(' where IDEMPRESA = :IDEMPRESA')
     .addParam('IDEMPRESA', FEntity.IDEMPRESA)
+    .addParam('DTEXCLUIDO', NOW)
     .execSql
   except
     on E: Exception do
       raise Exception.create(E.message);
-
   end;
 end;
 

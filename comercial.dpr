@@ -32,7 +32,9 @@ uses
   comercial.model.DAO.CadTitular in 'src\model\DAO\comercial.model.DAO.CadTitular.pas',
   comercial.view.Empresa in 'src\view\comercial.view.Empresa.pas' {pageEmpresa},
   comercial.view.Endereco in 'src\view\comercial.view.Endereco.pas' {pageEndereco},
-  comercial.model.business.Empresa in 'src\model\business\comercial.model.business.Empresa.pas';
+  comercial.model.business.Empresa in 'src\model\business\comercial.model.business.Empresa.pas',
+  comercial.view.search in 'src\view\comercial.view.search.pas' {pageSearch},
+  comercial.model.business.search in 'src\model\business\comercial.model.business.search.pas';
 
 {$R *.res}
 
@@ -41,5 +43,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
   Application.CreateForm(TpageEndereco, pageEndereco);
+  Application.CreateForm(TpageSearch, pageSearch);
   Application.Run;
 end.

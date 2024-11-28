@@ -14,18 +14,20 @@ type
   private
     FListEmpresas: iModelBusinessListEmpresas;
     FEmpresa: iModelBusinessEmpresa;
+    FSearch: iModelBusinessSearch;
   public
     constructor create;
     destructor destroy; override;
     class function New: iControllerBusiness;
     function ListEmpresas: iModelBusinessListEmpresas;
     function Empresa: iModelBusinessEmpresa;
+    function Search: iModelBusinessSearch;
   end;
 
 implementation
 
 uses
-  comercial.model.business.Empresa;
+  comercial.model.business.Empresa, comercial.model.business.search;
 
 { TControllerBusiness }
 
@@ -57,6 +59,13 @@ end;
 class function TControllerBusiness.New: iControllerBusiness;
 begin
   result := Self.create;
+end;
+
+function TControllerBusiness.search: iModelBusinessSearch;
+begin
+  if not assigned(FSearch) then
+    FSearch := TModelBusinessSearch.New;
+  result := FSearch;
 end;
 
 end.

@@ -14,10 +14,12 @@ type
     Button_buscar: TButton;
     DataSource1: TDataSource;
     Button_novo: TButton;
+    Button_deletar: TButton;
     procedure FormShow(Sender: TObject);
     procedure Button_buscarClick(Sender: TObject);
     procedure Button_novoClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure Button_deletarClick(Sender: TObject);
   private
     Fcontroller : iController;
   public
@@ -43,6 +45,32 @@ begin
         .nmempresa(Edit1_buscar.Text)
         .SearchData;
 
+end;
+
+procedure TpageListEmpresas.Button_deletarClick(Sender: TObject);
+begin
+  if MessageDlg
+    ('Deseja excluir a empresa ' +
+     DataSource1.DataSet.FieldByName('nmEmresa').AsString,
+    mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+     exit;
+
+  if DataSource1.DataSet.IsEmpty then
+    exit;
+
+  Fcontroller
+    .business
+      .empresa
+        .idEmpresa(DataSource1.DataSet.FieldByName('idEmpresa').AsInteger)
+        .Deletar;
+
+
+  Fcontroller
+    .business
+      .ListEmpresas
+        .SearchData;
+
+  showMessage('Empresa deletada');
 end;
 
 procedure TpageListEmpresas.Button_novoClick(Sender: TObject);

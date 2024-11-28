@@ -15,6 +15,9 @@ type
     FIDEMPRESA: integer;
     FNMEMPRESA: String;
     FNUCNPJ: String;
+    FSTATIVO: String;
+    FSTEXCLUIDO: string;
+    FDTEXCLUIDO: TdateTime;
   public
     constructor Create(aParent: iModelDAOEntity<TModelEntityCadEmpresa>);
     destructor Destroy; override;
@@ -24,6 +27,12 @@ type
     function NMEMPRESA: string; overload;
     function NUCNPJ(aValue: string): TModelEntityCadEmpresa; overload;
     function NUCNPJ: string; overload;
+    function STATIVO(aValue: string): TModelEntityCadEmpresa; overload;
+    function STATIVO: string; overload;
+    function STEXCLUIDO(aValue: string): TModelEntityCadEmpresa; overload;
+    function STEXCLUIDO: string; overload;
+    function DTEXCLUIDO(aValue: TdateTime): TModelEntityCadEmpresa; overload;
+    function DTEXCLUIDO: TdateTime; overload;
     function &End: iModelDAOEntity<TModelEntityCadEmpresa>;
   end;
 
@@ -46,15 +55,27 @@ begin
   inherited;
 end;
 
+function TModelEntityCadEmpresa.DTEXCLUIDO(aValue: TdateTime)
+  : TModelEntityCadEmpresa;
+begin
+  result := Self;
+  FDTEXCLUIDO := aValue;
+end;
+
+function TModelEntityCadEmpresa.DTEXCLUIDO: TdateTime;
+begin
+  result := FDTEXCLUIDO;
+end;
+
 function TModelEntityCadEmpresa.&End: iModelDAOEntity<TModelEntityCadEmpresa>;
 begin
-  Result := FParent;
+  result := FParent;
 end;
 
 function TModelEntityCadEmpresa.IDEMPRESA(aValue: integer)
   : TModelEntityCadEmpresa;
 begin
-  Result := Self;
+  result := Self;
   FIDEMPRESA := aValue;
 end;
 
@@ -63,13 +84,13 @@ begin
   if (FIDEMPRESA) <= 0 then
     raise Exception.Create('id não pode ser vazio');
 
-  Result := FIDEMPRESA;
+  result := FIDEMPRESA;
 end;
 
 function TModelEntityCadEmpresa.NMEMPRESA(aValue: string)
   : TModelEntityCadEmpresa;
 begin
-  Result := Self;
+  result := Self;
   FNMEMPRESA := aValue;
 end;
 
@@ -78,17 +99,40 @@ begin
   if trim(FNMEMPRESA) = '' then
     raise Exception.Create('Nome não pode ser vazio');
 
-  Result := FNMEMPRESA;
+  result := FNMEMPRESA;
 end;
 
 function TModelEntityCadEmpresa.NUCNPJ: string;
 begin
-  Result := FNUCNPJ;
+  result := FNUCNPJ;
+end;
+
+function TModelEntityCadEmpresa.STATIVO: string;
+begin
+  result := FSTATIVO;;
+end;
+
+function TModelEntityCadEmpresa.STATIVO(aValue: string): TModelEntityCadEmpresa;
+begin
+  result := Self;
+  FSTATIVO := aValue;
+end;
+
+function TModelEntityCadEmpresa.STEXCLUIDO(aValue: string)
+  : TModelEntityCadEmpresa;
+begin
+  result := Self;
+  FSTEXCLUIDO := aValue;
+end;
+
+function TModelEntityCadEmpresa.STEXCLUIDO: string;
+begin
+  result := FSTEXCLUIDO;
 end;
 
 function TModelEntityCadEmpresa.NUCNPJ(aValue: string): TModelEntityCadEmpresa;
 begin
-  Result := Self;
+  result := Self;
   FNUCNPJ := aValue;
 end;
 

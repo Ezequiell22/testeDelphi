@@ -166,14 +166,15 @@ begin
     .sqlClear
     .sqlAdd('insert into CadEnderecos')
     .sqlAdd('(IDENDERECO, IDTITULAR, IDEMPRESA, ')
-    .sqlAdd('   NMENDERECO, NUENDERECO )')
+    .sqlAdd('   NMENDERECO, NUENDERECO, STATIVO )')
     .sqlAdd('values ( :IDENDERECO, :IDTITULAR, :IDEMPRESA, ')
-    .sqlAdd('   :NMENDERECO, :NUENDERECO )')
+    .sqlAdd('   :NMENDERECO, :NUENDERECO, :STATIVO )')
       .addParam('IDENDERECO', FEntity.IDENDERECO)
       .addParam('IDTITULAR', FEntity.IDTITULAR)
       .addParam('IDEMPRESA', FEntity.IDEMPRESA)
       .addParam('NMENDERECO', FEntity.NMENDERECO)
       .addParam('NUENDERECO', FEntity.NUENDERECO)
+      .addParam('STATIVO', FEntity.STATIVO)
       .execSql
 
   except
@@ -204,13 +205,15 @@ begin
     .sqlAdd('set IDTITULAR = :IDTITULAR, ')
     .sqlAdd('IDEMPRESA = :IDEMPRESA, ')
     .sqlAdd('NMENDERECO = :NMENDERECO, ')
-    .sqlAdd('NUENDERECO = :NUENDERECO ')
+    .sqlAdd('NUENDERECO = :NUENDERECO, ')
+    .sqlAdd('STATIVO = :STATIVO ')
     .sqlAdd(' where IDENDERECO = :IDENDERECO')
     .addParam('IDENDERECO', FEntity.IDENDERECO)
     .addParam('IDTITULAR', FEntity.IDTITULAR)
     .addParam('IDEMPRESA', FEntity.IDEMPRESA)
     .addParam('NMENDERECO', FEntity.NMENDERECO)
     .addParam('NUENDERECO', FEntity.NUENDERECO)
+    .addParam('STATIVO', FEntity.STATIVO)
     .execSql
 
   except

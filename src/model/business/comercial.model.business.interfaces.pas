@@ -32,6 +32,8 @@ type
       : iModelBusinessEmpresa;
     function newId: integer;
     function SaveData: iModelBusinessEmpresa;
+    function ColocaEnderecoAtivo :iModelBusinessEmpresa;
+    function idEndereco(aValue : integer ) : iModelBusinessEmpresa;
   end;
 
 implementation

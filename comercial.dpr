@@ -31,7 +31,7 @@ uses
   comercial.model.DAO.CadCidade in 'src\model\DAO\comercial.model.DAO.CadCidade.pas',
   comercial.model.DAO.CadTitular in 'src\model\DAO\comercial.model.DAO.CadTitular.pas',
   comercial.view.Empresa in 'src\view\comercial.view.Empresa.pas' {pageEmpresa},
-  comercial.view.ListEnderecos in 'src\view\comercial.view.ListEnderecos.pas' {pageListEnderecos},
+  comercial.view.Endereco in 'src\view\comercial.view.Endereco.pas' {pageEndereco},
   comercial.model.business.Empresa in 'src\model\business\comercial.model.business.Empresa.pas';
 
 {$R *.res}
@@ -40,6 +40,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
-  Application.CreateForm(TpageListEnderecos, pageListEnderecos);
+  Application.CreateForm(TpageEndereco, pageEndereco);
   Application.Run;
 end.

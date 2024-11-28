@@ -43,26 +43,46 @@ object pageEmpresa: TpageEmpresa
     Height = 186
     Caption = 'Endere'#231'os'
     TabOrder = 0
-    object Button_alterar: TButton
-      Left = 703
-      Top = 19
-      Width = 137
-      Height = 25
-      Caption = 'Alterar Endere'#231'o'
-      TabOrder = 0
-    end
     object DBGrid1: TDBGrid
       Left = 3
-      Top = 63
+      Top = 23
       Width = 854
       Height = 120
       DataSource = DataSource_enderecos
-      TabOrder = 1
+      TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
+    end
+    object Button_seleciona: TButton
+      Left = 703
+      Top = 149
+      Width = 150
+      Height = 25
+      Caption = 'Selecionar Endere'#231'o'
+      TabOrder = 1
+      OnClick = Button_selecionaClick
+    end
+    object Button_adicionar: TButton
+      Left = 598
+      Top = 149
+      Width = 99
+      Height = 25
+      Caption = 'Adicionar Novo'
+      TabOrder = 2
+      OnClick = Button_adicionarClick
+    end
+    object Button_Editar: TButton
+      Left = 517
+      Top = 149
+      Width = 75
+      Height = 25
+      Caption = 'Editar'
+      TabOrder = 3
+      OnClick = Button_EditarClick
     end
   end
   object Edit_codigo: TEdit

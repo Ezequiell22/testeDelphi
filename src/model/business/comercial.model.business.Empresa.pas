@@ -19,6 +19,7 @@ type
     Fnmempresa : string;
     FidEmpresa : integer;
     FNUCNPJ : string;
+    FIDEndereco : integer;
     FcadEmpresa: iModelDAOEntity<TModelEntityCadEmpresa>;
     FcadEnderecos: iModelDAOEntity<TModelEntityCadEnderecos>;
     function isNew : boolean;
@@ -30,12 +31,14 @@ type
     function nmempresa(aValue : string ) : iModelBusinessEmpresa;
     function NUCNPJ(aValue : string ) : iModelBusinessEmpresa;
     function idEmpresa(aValue : integer ) : iModelBusinessEmpresa;
+    function idEndereco(aValue : integer ) : iModelBusinessEmpresa;
     function LinkDataSourceEnderecos(aDataSource: TDataSource)
       : iModelBusinessEmpresa;
     function LinkDataSourceEmpresa(aDataSource: TDataSource)
       : iModelBusinessEmpresa;
     function newId : integer;
     function SaveData : iModelBusinessEmpresa;
+    function ColocaEnderecoAtivo : iModelBusinessEmpresa;
   end;
 
 implementation
@@ -46,6 +49,32 @@ uses
   Generics.Collections;
 
 { TModelBusinessEmpresa }
+
+function TModelBusinessEmpresa.ColocaEnderecoAtivo: iModelBusinessEmpresa;
+begin
+  result := Self;
+  {primeiro inativa todos os endereços da empresa}
+  FQueryAux
+    .active(false)
+    .sqlClear
+    .sqlAdd('update cadEnderecos')
+    .sqlAdd('set STATIVO = ''N''')
+    .sqlAdd('where idEmpresa = :idEmpresa')
+    .addParam('idEmpresa', FidEmpresa)
+    .execSql;
+
+  { agora ativa apenas o endereço solicitado}
+  FQueryAux
+    .active(false)
+    .sqlClear
+    .sqlAdd('update cadEnderecos')
+    .sqlAdd('set STATIVO = ''S''')
+    .sqlAdd('where idEmpresa = :idEmpresa')
+    .sqlAdd('and idendereco = :idendereco')
+    .addParam('idEmpresa', FidEmpresa)
+    .addParam('idendereco', Fidendereco)
+    .execSql;
+end;
 
 constructor TModelBusinessEmpresa.Create;
 begin
@@ -65,6 +94,13 @@ function TModelBusinessEmpresa.idEmpresa(
 begin
   result := Self;
   FidEmpresa := aValue;
+end;
+
+function TModelBusinessEmpresa.idEndereco(
+  aValue: integer): iModelBusinessEmpresa;
+begin
+  result := Self;
+  FIDEndereco := aValue;
 end;
 
 function TModelBusinessEmpresa.isNew: boolean;

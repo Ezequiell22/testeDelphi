@@ -42,6 +42,7 @@ begin
       .ListEmpresas
         .nmempresa(Edit1_buscar.Text)
         .SearchData;
+
 end;
 
 procedure TpageListEmpresas.Button_novoClick(Sender: TObject);
@@ -54,6 +55,8 @@ begin
    finally
     pageEmpresa.Free;
    end;
+
+   Button_buscarClick(Sender);
 end;
 
 procedure TpageListEmpresas.DBGrid1DblClick(Sender: TObject);
@@ -72,6 +75,7 @@ begin
     pageEmpresa.Free;
    end;
 
+   Button_buscarClick(Sender);
 end;
 
 procedure TpageListEmpresas.FormShow(Sender: TObject);

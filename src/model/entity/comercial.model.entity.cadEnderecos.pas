@@ -17,6 +17,7 @@ type
     FIDEMPRESA: integer;
     FNMENDERECO: string;
     FNUENDERECO: string;
+    FSTATIVO: String;
   public
     constructor Create(aParent: iModelDAOEntity<TModelEntityCadEnderecos>);
     destructor Destroy; override;
@@ -30,6 +31,8 @@ type
     function NMENDERECO: string; overload;
     function NUENDERECO(aValue: string): TModelEntityCadEnderecos; overload;
     function NUENDERECO: string; overload;
+    function STATIVO(aValue: string): TModelEntityCadEnderecos; overload;
+    function STATIVO: string; overload;
     function &End: iModelDAOEntity<TModelEntityCadEnderecos>;
   end;
 
@@ -131,6 +134,18 @@ begin
     raise Exception.Create('NUENDERECO não pode ser vazio');
 
   Result := FNUENDERECO;
+end;
+
+function TModelEntityCadEnderecos.STATIVO: string;
+begin
+  result := FSTATIVO;
+end;
+
+function TModelEntityCadEnderecos.STATIVO(
+  aValue: string): TModelEntityCadEnderecos;
+begin
+  result := Self;
+  FSTATIVO := aValue;
 end;
 
 end.

@@ -1,4 +1,4 @@
-unit comercial.view.ListEnderecos;
+unit comercial.view.Endereco;
 
 interface
 
@@ -8,13 +8,9 @@ uses
   Vcl.StdCtrls;
 
 type
-  TpageListEnderecos = class(TForm)
-    DBGrid1: TDBGrid;
+  TpageEndereco = class(TForm)
     lbl_codigo: TLabel;
     lbl_empresa: TLabel;
-    Button_seleciona: TButton;
-    Button_adicionar: TButton;
-    Button_Editar: TButton;
   private
     { Private declarations }
   public
@@ -22,7 +18,7 @@ type
   end;
 
 var
-  pageListEnderecos: TpageListEnderecos;
+  pageEndereco: TpageEndereco;
 
 implementation
 

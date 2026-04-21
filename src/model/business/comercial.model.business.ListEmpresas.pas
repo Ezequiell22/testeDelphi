@@ -79,7 +79,7 @@ begin
     .sqlAdd('a.nucnpj')
     .sqlAdd('from cadEmpresa A  ')
     .sqlAdd(' where (a.STEXCLUIDO <> ''S''')
-    .sqlAdd(' or a.STEXCLUIDO is null )');
+    .sqlAdd(' or a.STEXCLUIDO is null and a.STEXCLUIDO is nullo )');
 
     if (Fnmempresa <> EmptyStr) then
     begin
